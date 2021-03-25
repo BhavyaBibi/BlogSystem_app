@@ -28,6 +28,7 @@ urlpatterns = [
     path('contact/', contact, name = 'contact'),
     path('search/', search, name = 'search'),
     path('view_all/<str:query>', view_all, name = 'view_all'),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
 ]
 
 if settings.DEBUG:

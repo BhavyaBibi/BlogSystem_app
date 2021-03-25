@@ -1,7 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
+from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
+from django.utils.text import slugify
 
 # Create your models here.
+
 class subscribe(models.Model):
 	email = models.EmailField()
     
@@ -19,6 +23,8 @@ class Categorie(models.Model):
 class Post(models.Model):
 	title = models.CharField(max_length = 50)
 	overview = models.TextField()
+	slug = models.SlugField(null=True, blank=True)
+	body_text = RichTextUploadingField(null=True)
 	time_upload = models.DateTimeField(auto_now_add = True)
 	auther = models.ForeignKey(Author, on_delete=models.CASCADE)
 	thumbnail = models.ImageField(upload_to = 'thumbnails')
@@ -31,6 +37,10 @@ class Post(models.Model):
 
 	def __str__(self):
 		return self.title
+
+	def save(self, *args, **kwargs):
+		self.slug = slugify(self.title)
+		super(Post, self).save(*args, **kwargs)
 
     
     

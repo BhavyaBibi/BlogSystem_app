@@ -41,8 +41,17 @@ def about(request):
 		}
 	return render(request, 'about.html', parms)
 
-def post(request):
-    return render(request, 'blog-single.html')
+def post(request, id, slug):
+	try:
+		post = Post.objects.get(pk=id, slug=slug)
+	except:
+		raise Http404("Post Does Not Exist")
+	parms = {
+		'post':post,
+		'pop_post': Post.objects.order_by('-read')[:9],
+		}
+	return render(request, 'blog-single.html', parms)	
+    
 
 def contact(request):
 	
