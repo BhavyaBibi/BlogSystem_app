@@ -7,9 +7,10 @@
     {% if title %}
     {{title}}
     {% else %}
-    BlogProject
+    Blog Project
     {% endif %}
   </title>
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -59,7 +60,7 @@
         <div class="row align-items-center">
           <div class="col-12 col-lg-6 d-flex">
             <a href="index.html" class="site-logo">
-              Blog_Project
+              Blog Project
             </a>
 
             <a href="#" class="ml-auto d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black"><span
@@ -79,7 +80,6 @@
                 <button type="submit" class="btn btn-secondary"><span class="icon-search"></span></button>
               </div>
             </form>
-
 
 
           </div>
@@ -108,7 +108,14 @@
                   </li>
 
                   <li><a href="{% url 'contact' %}" class="nav-link text-left">Contact</a></li>
-
+                  {% if user.is_authenticated %}
+                  <li><a href="{% url 'account_email' %}" class="nav-link text-right text-info">Change E-mail</a></li>
+                  <li><a href="{% url 'account_logout' %}" class="nav-link text-right text-info">Sign Out</a></li>
+                  {% else %}
+                  <li><a href="{% url 'account_login' %}" class="nav-link text-right text-info">Sign In</a></li>
+                  <li><a href="{% url 'account_signup' %}" class="nav-link text-right text-info">Sign Up</a></li>
+                  {% endif %}
+                </ul>
               </nav>
 
             </div>

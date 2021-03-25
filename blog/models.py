@@ -49,5 +49,17 @@ class Contact(models.Model):
 	mess = models.TextField()
 	time = models.DateTimeField(auto_now_add = True)
 
+class Comment(models.Model):
+	post = models.ForeignKey(Post, on_delete=models.CASCADE)
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	time = models.DateTimeField(auto_now_add=True)
+	comm = models.TextField()
+
+class SubComment(models.Model):
+	post = models.ForeignKey(Post, on_delete=models.CASCADE)
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	time = models.DateTimeField(auto_now_add=True)
+	comm = models.TextField()
+	comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
     
     

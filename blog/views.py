@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.http import Http404
-from .models import Post,Author,subscribe, Contact
+from .models import Post, Author, subscribe, Contact, Comment, SubComment
 import datetime
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-#from django.db.models import Q
+from django.db.models import Q
 
 def index(request):
 
@@ -41,6 +41,7 @@ def about(request):
 		}
 	return render(request, 'about.html', parms)
 
+
 def post(request, id, slug):
 	try:
 		post = Post.objects.get(pk=id, slug=slug)
@@ -49,7 +50,26 @@ def post(request, id, slug):
 
 	post.read+=1
 	post.save()
+
+	if request.method == 'POST':
+		comm = request.POST.get('comm')
+		comm_id = request.POST.get('comm_id') #None
+
+		if comm_id:
+			SubComment(post=post,
+					user = request.user,
+					comm = comm,
+					comment = Comment.objects.get(id=int(comm_id))
+				).save()
+		else:
+			Comment(post=post, user=request.user, comm=comm).save()
+
+
+	comments = []
+	for c in Comment.objects.filter(post=post):
+		comments.append([c, SubComment.objects.filter(comment=c)])
 	parms = {
+		'comments':comments,
 		'post':post,
 		'pop_post': Post.objects.order_by('-read')[:9],
 		}

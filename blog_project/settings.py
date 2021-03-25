@@ -41,6 +41,12 @@ INSTALLED_APPS = [
      'blog',
       'ckeditor',
     'ckeditor_uploader',
+    'django.contrib.sites',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -173,3 +179,11 @@ CKEDITOR_CONFIGS = {
     },
 }
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+SITE_ID = 1
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
