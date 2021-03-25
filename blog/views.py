@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import Http404
-from .models import Post,Author,subscribe
+from .models import Post,Author,subscribe, Contact
 import datetime
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 #from django.db.models import Q
@@ -45,7 +45,10 @@ def post(request, id, slug):
 	try:
 		post = Post.objects.get(pk=id, slug=slug)
 	except:
-		raise Http404("Post Does Not Exist")
+		raise Http404("Post Does Not Exist")	
+
+	post.read+=1
+	post.save()
 	parms = {
 		'post':post,
 		'pop_post': Post.objects.order_by('-read')[:9],
@@ -53,8 +56,15 @@ def post(request, id, slug):
 	return render(request, 'blog-single.html', parms)	
     
 
+
 def contact(request):
-	
+	if request.method == 'POST':
+		name = f"{request.POST.get('fname')} {request.POST.get('lname')}"
+		email = request.POST.get('email')
+		mob = request.POST.get('mob')
+		mess = request.POST.get('mess','default')
+
+		Contact(name=name,email=email,mob=mob,mess=mess).save()
 	return render(request, 'contact.html')
 
 def search(request):

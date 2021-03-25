@@ -42,5 +42,12 @@ class Post(models.Model):
 		self.slug = slugify(self.title)
 		super(Post, self).save(*args, **kwargs)
 
+class Contact(models.Model):
+	name = models.CharField(max_length=100)
+	email = models.EmailField()
+	mob = models.CharField(max_length=12)
+	mess = models.TextField()
+	time = models.DateTimeField(auto_now_add = True)
+
     
     
