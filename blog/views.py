@@ -27,20 +27,44 @@ def index(request):
 		posts = all_post.page(all_post.num_pages)
 
 	parms = {
+		'title': 'About | BlogProject',
 		'posts': posts,
 		'trends': trends[:5],
 		'author_post':AuthorsPost,
 		'pop_post': Post.objects.order_by('-read')[:9],
 	}
 	return render(request, 'index.html', parms)
-	
+
 def about(request):
+	if request.method == 'GET':
+		email = request.GET.get('email')
+		if email:
+			subscribe(email=email).save()
+
+	week_ago = datetime.date.today() - datetime.timedelta(days = 7)
+	trends = Post.objects.filter(time_upload__gte = week_ago).order_by('-read')
+	TopAuthors =Author.objects.order_by('-rate')[:4]
+	AuthorsPost = [Post.objects.filter(auther = author).first() for author in TopAuthors]
+
+	all_post = Paginator(Post.objects.filter(publish = True),3)
+	page = request.GET.get('page')
+	try:
+		posts = all_post.page(page)
+	except PageNotAnInteger:
+		posts = all_post.page(1)
+	except EmptyPage:
+		posts = all_post.page(all_post.num_pages)
+
 	parms = {
-		'title': 'About | BlogProject',
+		'posts': posts,
+		'trends': trends[:5],
+		'author_post':AuthorsPost,
+		'pop_post': Post.objects.order_by('-read')[:9],
+	}
+		
 
-		}
+	
 	return render(request, 'about.html', parms)
-
 
 def post(request, id, slug):
 	try:
@@ -73,9 +97,7 @@ def post(request, id, slug):
 		'post':post,
 		'pop_post': Post.objects.order_by('-read')[:9],
 		}
-	return render(request, 'blog-single.html', parms)	
-    
-
+	return render(request, 'blog-single.html', parms)
 
 def contact(request):
 	if request.method == 'POST':
@@ -101,6 +123,7 @@ def search(request):
 		}
 
 	return render(request, 'all.html', parms)
+
 def view_all(request, query):
 	week_ago = datetime.date.today() - datetime.timedelta(days = 7)
 	
