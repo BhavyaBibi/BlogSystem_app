@@ -34,7 +34,6 @@
   </div>
 </div>
 
-
 <div class="site-section">
   <div class="container">
     <div class="row">
@@ -48,9 +47,11 @@
         </div>
         <div class="row">
           <div class="col-md-6">
+            {% for post in posts|slice:":1" %}
             <div class="post-entry-1">
-              <a href="blog-single.html"><img src="{{author_post.0.thumbnail.url}}" alt="Image" class="img-fluid"></a>
-              <h2><a href="blog-single.html">{{author_post.0.title}}</a></h2>
+              <a href=" {% url 'post' post.id post.slug %}"><img src="{{author_post.0.thumbnail.url}}" alt="Image"
+                  class="img-fluid"></a>
+              <h2><a href=" {% url 'post' post.id post.slug %}">{{author_post.0.title}}</a></h2>
               <p>{{author_post.0.overview}}</p>
               <div class="post-meta">
                 <span class="d-block">
@@ -63,6 +64,7 @@
                     class="icon-star2"></span></span>
               </div>
             </div>
+            {% endfor %}
           </div>
           <div class="col-md-6">
             {% for post in author_post|slice:"1:" %}
@@ -121,6 +123,7 @@
   </div>
 </div>
 <!-- END section -->
+
 
 <div class="py-0">
   <div class="container">

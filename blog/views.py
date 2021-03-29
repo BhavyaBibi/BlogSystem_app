@@ -87,8 +87,7 @@ def post(request, id, slug):
 				).save()
 		else:
 			Comment(post=post, user=request.user, comm=comm).save()
-	return redirect('/')
-
+	
 	comments = []
 	for c in Comment.objects.filter(post=post):
 		comments.append([c, SubComment.objects.filter(comment=c)])
