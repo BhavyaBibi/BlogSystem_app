@@ -50,10 +50,13 @@ class Contact(models.Model):
 	time = models.DateTimeField(auto_now_add = True)
 
 class Comment(models.Model):
-	post = models.ForeignKey(Post, on_delete=models.CASCADE)
+	post = models.ForeignKey(Post,on_delete=models.CASCADE)
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	time = models.DateTimeField(auto_now_add=True)
 	comm = models.TextField()
+
+	#def __str__(self):
+		#return '%s - %s'%(self.post.title,self.name)
 
 class SubComment(models.Model):
 	post = models.ForeignKey(Post, on_delete=models.CASCADE)
