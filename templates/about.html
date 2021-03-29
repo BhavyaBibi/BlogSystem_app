@@ -22,9 +22,10 @@
         <p>{{post.overview}}</p>
         <ul class="ul-check list-unstyled success mt-5">
           <li>
-            {{post.title}}</li>
-          <li>Cupiditate dolores rerum, consequatur!</li>
-          <li>Quia dolor molestias voluptatem?</li>
+            {{author_post.0.title}}</li>
+          <li>{{post.overview}}</li>
+          <li>
+            {{author_post.0.title}}</li>
         </ul>
 
         {% endfor %}
@@ -68,7 +69,7 @@
             {% endfor %}
           </div>
           <div class="col-md-6">
-            {% for post in posts %}
+            {% for post in posts|slice:":1" %}
             <div class="post-entry-2 d-flex bg-light">
               <div class="thumbnail" style="background-image: url({{post.thumbnail.url}})"></div>
               <div class="contents">

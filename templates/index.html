@@ -67,7 +67,7 @@
             {% endfor %}
           </div>
           <div class="col-md-6">
-            {% for post in posts %}
+            {% for post in posts|slice:":1" %}
             <div class="post-entry-2 d-flex bg-light">
               <div class="thumbnail" style="background-image: url({{post.thumbnail.url}})"></div>
               <div class="contents">
