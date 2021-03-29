@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import Http404
 from .models import Post, Author, subscribe, Contact, Comment, SubComment
 import datetime
@@ -87,7 +87,7 @@ def post(request, id, slug):
 				).save()
 		else:
 			Comment(post=post, user=request.user, comm=comm).save()
-
+	return redirect('/')
 
 	comments = []
 	for c in Comment.objects.filter(post=post):
@@ -97,7 +97,9 @@ def post(request, id, slug):
 		'post':post,
 		'pop_post': Post.objects.order_by('-read')[:9],
 		}
+		
 	return render(request, 'blog-single.html', parms)
+
 
 def contact(request):
 	if request.method == 'POST':
