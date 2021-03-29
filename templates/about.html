@@ -48,9 +48,11 @@
         </div>
         <div class="row">
           <div class="col-md-6">
+            {% for post in posts|slice:":1" %}
             <div class="post-entry-1">
-              <a href="post-single.html"><img src="{{author_post.0.thumbnail.url}}" alt="Image" class="img-fluid"></a>
-              <h2><a href="blog-single.html">{{author_post.0.title}}</a></h2>
+              <a href=" {% url 'post' post.id post.slug %}"><img src="{{author_post.0.thumbnail.url}}" alt="Image"
+                  class="img-fluid"></a>
+              <h2><a href=" {% url 'post' post.id post.slug %}">{{author_post.0.title}}</a></h2>
               <p>{{author_post.0.overview}}</p>
               <div class="post-meta">
                 <span class="d-block">
@@ -63,13 +65,15 @@
                     class="icon-star2"></span></span>
               </div>
             </div>
+            {% endfor %}
           </div>
           <div class="col-md-6">
-            {% for post in author_post|slice:"1:" %}
+            {% for post in posts %}
             <div class="post-entry-2 d-flex bg-light">
               <div class="thumbnail" style="background-image: url({{post.thumbnail.url}})"></div>
               <div class="contents">
-                <h2><a href="blog-single.html">{{post.title}}</a></h2>
+
+                <h2><a href=" {% url 'post' post.id post.slug %}">{{post.title}}</a></h2>
                 <div class="post-meta">
                   <span class="d-block">
 
@@ -80,10 +84,12 @@
                   <span class="date-read">{{post.time_upload|timesince}} ago<span class="mx-1">&bullet;</span>
                     {{post.read}} reads <span class="icon-star2"></span></span>
                 </div>
+
               </div>
             </div>
             {% endfor %}
           </div>
+
         </div>
       </div>
       <div class="col-lg-4">
@@ -92,9 +98,10 @@
         </div>
         {% for trend in trends %}
         <div class="trend-entry d-flex">
+          {% for post in author_post %}
           <div class="number align-self-start">0{{forloop.counter}}</div>
           <div class="trend-contents">
-            <h2><a href="blog-single.html">{{trend.title}}</a></h2>
+            <h2><a href=" {% url 'post' post.id post.slug %}"></a>{{trend.title}}</a></h2>
             <div class="post-meta">
               <span class="d-block">
 
@@ -108,6 +115,7 @@
                 {{trend.read}} reads <span class="icon-star2"></span></span>
             </div>
           </div>
+          {% endfor %}
         </div>
         {% endfor %}
 
@@ -121,6 +129,8 @@
   </div>
 </div>
 <!-- END section -->
+
+
 
 
 {% endblock body %}
