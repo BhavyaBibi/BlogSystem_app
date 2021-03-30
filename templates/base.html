@@ -60,7 +60,7 @@
       <div class="container">
         <div class="row align-items-center">
           <div class="col-12 col-lg-6 d-flex">
-            <a href="index.html" class="site-logo">
+            <a href="{% url 'home' %}" class=" site-logo">
               BlogProject
             </a>
 
@@ -110,6 +110,7 @@
 
                   <li><a href="{% url 'contact' %}" class="nav-link text-left">Contact</a></li>
                   {% if user.is_authenticated %}
+
                   <li><a href="{% url 'account_email' %}" class="nav-link text-right text-info">Change E-mail</a></li>
                   <li><a href="{% url 'account_logout' %}" class="nav-link text-right text-info">Sign Out</a></li>
                   {% else %}
